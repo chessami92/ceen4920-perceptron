@@ -6,3 +6,5 @@ typedef struct {
 } vector;
 
 float weightedSum( vector inputs, vector weights );
+float getOutput( float weightedSum );
+void testInput( vector inputs, vector weights, float desiredOutput );
