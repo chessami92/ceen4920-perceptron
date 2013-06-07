@@ -17,7 +17,7 @@ float getOutput( float weightedSum ) {
     return 2.0 / ( 1.0 + exp( -weightedSum ) ) - 1.0;
 }
 
-void testInput( TestCase testCase, Vector weights ) {
+void updateWeights( TestCase testCase, Vector weights ) {
     float learningRate = 5;
     float in;
     float actualOutput;

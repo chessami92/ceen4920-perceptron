@@ -12,4 +12,4 @@ typedef struct {
 
 float weightedSum( Vector inputs, Vector weights );
 float getOutput( float weightedSum );
-void testInput( TestCase testCase, Vector weights );
+void updateWeights( TestCase testCase, Vector weights );

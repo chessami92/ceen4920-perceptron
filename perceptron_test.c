@@ -26,7 +26,7 @@ static void getOutput_test( void ) {
     }
 }
 
-static void testInput_test( void ) {
+static void updateWeights_test( void ) {
     float a[2];
     float b[2];
     float actual, error;
@@ -41,7 +41,7 @@ static void testInput_test( void ) {
         a[0] = randFloat() * 2 - 1; a[1] = randFloat() * 2 - 1;
         b[0] = randFloat() / 20; b[1] = randFloat() / 20;
         for( j = 0; j < 250; ++j ) {
-            testInput( testCase, weights );
+            updateWeights( testCase, weights );
 
             actual = getOutput( weightedSum( inputs, weights ) );
             error = fabs( testCase.desiredOutput - actual );
@@ -55,15 +55,11 @@ static void testInput_test( void ) {
     assert( converged > 900 && "Should have had a better convergence rate" );
 }
 
-static void testInput_OR( void ) {
-
-}
-
 int main( void ) {
     initRand();
 
     weightedSum_test();
     getOutput_test();
-    testInput_test();
+    updateWeights_test();
     return 0;
 }
