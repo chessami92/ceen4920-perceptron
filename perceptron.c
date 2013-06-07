@@ -17,7 +17,7 @@ float getOutput( float weightedSum ) {
     return 2.0 / ( 1.0 + exp( -weightedSum ) ) - 1.0;
 }
 
-void testInput( Vector inputs, Vector weights, float desiredOutput ) {
+void testInput( TestCase testCase, Vector weights ) {
     float learningRate = 5;
     float in;
     float actualOutput;
@@ -25,12 +25,12 @@ void testInput( Vector inputs, Vector weights, float desiredOutput ) {
     float derrivative;
     int i;
 
-    in = weightedSum( inputs, weights );
+    in = weightedSum( testCase.inputs, weights );
     actualOutput = getOutput( in );
-    error = desiredOutput - actualOutput;
+    error = testCase.desiredOutput - actualOutput;
     derrivative = 1 / ( 2 * powf( cosh( in / 2 ), 2 ) );
     
-    for( i = 0; i < inputs.elements; ++i ) {
-        weights.a[i] = weights.a[i] + learningRate * error * derrivative * inputs.a[i];
+    for( i = 0; i < weights.elements; ++i ) {
+        weights.a[i] = weights.a[i] + learningRate * error * derrivative * testCase.inputs.a[i];
     }
 }

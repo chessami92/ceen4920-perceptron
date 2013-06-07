@@ -5,6 +5,11 @@ typedef struct {
     int elements;
 } Vector;
 
+typedef struct {
+    Vector inputs;
+    float desiredOutput;
+} TestCase;
+
 float weightedSum( Vector inputs, Vector weights );
 float getOutput( float weightedSum );
-void testInput( Vector inputs, Vector weights, float desiredOutput );
+void testInput( TestCase testCase, Vector weights );

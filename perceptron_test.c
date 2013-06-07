@@ -29,21 +29,22 @@ static void getOutput_test( void ) {
 static void testInput_test( void ) {
     float a[2];
     float b[2];
+    float actual, error;
     Vector inputs = {a, 2};
     Vector weights = {b, 2};
-    float desired, actual, error;
+    TestCase testCase = {inputs, 0.0};
     int i, j;
     int converged = 0;
 
     for( i = 0; i < 1000; ++i ) {
-        desired = randFloat() * 2 - 1;
+        testCase.desiredOutput = randFloat() * 2 - 1;
         a[0] = randFloat() * 2 - 1; a[1] = randFloat() * 2 - 1;
         b[0] = randFloat() / 20; b[1] = randFloat() / 20;
         for( j = 0; j < 250; ++j ) {
-            testInput( inputs, weights, desired );
+            testInput( testCase, weights );
 
             actual = getOutput( weightedSum( inputs, weights ) );
-            error = fabs( desired - actual );
+            error = fabs( testCase.desiredOutput - actual );
             if( error < FLOAT_EQUALS ) {
                 converged++;
                 break;
