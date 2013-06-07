@@ -9,8 +9,8 @@
 static void weightedSum_test( void ) {
     float a[5] = {1, 2, 3, 4 , 5};
     float b[5] = {-1.5, 2, 3, 4 , -5};
-    vector inputs = {a, 5};
-    vector weights = {b, 5};
+    Vector inputs = {a, 5};
+    Vector weights = {b, 5};
 
     assert( weightedSum( inputs, weights ) == 2.5 && "Weighted sums not being calculated correctly" );
 }
@@ -29,8 +29,8 @@ static void getOutput_test( void ) {
 static void testInput_test( void ) {
     float a[2];
     float b[2];
-    vector inputs = {a, 2};
-    vector weights = {b, 2};
+    Vector inputs = {a, 2};
+    Vector weights = {b, 2};
     float desired, actual, error;
     int i, j;
     int converged = 0;

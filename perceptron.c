@@ -2,7 +2,7 @@
 #include <math.h>
 #include "perceptron.h"
 
-float weightedSum( vector inputs, vector weights ) {
+float weightedSum( Vector inputs, Vector weights ) {
     float returnVal = 0;
     int i;
 
@@ -17,7 +17,7 @@ float getOutput( float weightedSum ) {
     return 2.0 / ( 1.0 + exp( -weightedSum ) ) - 1.0;
 }
 
-void testInput( vector inputs, vector weights, float desiredOutput ) {
+void testInput( Vector inputs, Vector weights, float desiredOutput ) {
     float learningRate = 5;
     float in;
     float actualOutput;
