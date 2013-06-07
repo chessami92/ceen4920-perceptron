@@ -45,15 +45,17 @@ static void testInput_test( void ) {
             actual = getOutput( weightedSum( inputs, weights ) );
             error = fabs( desired - actual );
             if( error < FLOAT_EQUALS ) {
+                converged++;
                 break;
             }
         }
-        if( error < FLOAT_EQUALS ) {
-            converged++;
-        } else {
-            printf( "inputs: %f, %f, weights: %f, %f, desired: %f, actual: %f\n", a[0], a[1], b[0], b[1], desired, actual );
-        }
     }
+
+    assert( converged > 900 && "Should have had a better convergence rate" );
+}
+
+static void testInput_OR( void ) {
+
 }
 
 int main( void ) {
