@@ -22,15 +22,15 @@ void updateWeights( TestCase testCase, Vector weights ) {
     float in;
     float actualOutput;
     float error;
-    float derrivative;
+    float derivative;
     int i;
 
     in = weightedSum( testCase.inputs, weights );
     actualOutput = getOutput( in );
     error = testCase.desiredOutput - actualOutput;
-    derrivative = 1 / ( 2 * powf( cosh( in / 2 ), 2 ) );
+    derivative = 1 / ( 2 * powf( cosh( in / 2 ), 2 ) );
     
     for( i = 0; i < weights.elements; ++i ) {
-        weights.a[i] = weights.a[i] + learningRate * error * derrivative * testCase.inputs.a[i];
+        weights.a[i] = weights.a[i] + learningRate * error * derivative * testCase.inputs.a[i];
     }
 }
