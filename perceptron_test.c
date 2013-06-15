@@ -96,16 +96,18 @@ static void majorityFunction( void ) {
     Vector inputs[8];
     Vector weights = {b, 3};
     TestCase testCases[8];
-    int i, j;
+    int i, j, maxIterations = 10000;
 
     makeTestCases( a, inputs, testCases );
 
-    for( i = 0; i < 10000; ++i) {
+    for( i = 0; i < maxIterations; ++i) {
         updateWeights( testCases[i % 8], weights );
         if( isTrained( testCases, weights ) ) {
             break;
         }
     }
+
+    assert( i != maxIterations && "Should have finished training before 10000 iterations.");
 
     printf( "Took %d iterations\n", i );
     printf( "Weights: %f %f %f\n", b[0], b[1], b[2] );
