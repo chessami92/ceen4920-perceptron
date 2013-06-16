@@ -12,13 +12,13 @@ float nextValue( void ) {
     return sin( 2 * M_PI * 10 * time );
 }
 
-void advanceInputs( Vector *inputs ) {
+void advanceInputs( Vector *inputs, float nextValue ) {
     int i;
 
     for( i = inputs->elements - 1; i > 0; --i ) {
         inputs->a[i] = inputs->a[i - 1];
     }
-    inputs->a[0] = nextValue();
+    inputs->a[0] = nextValue;
 }
 
 int main( int argc, char *argv[] ) {
@@ -27,7 +27,7 @@ int main( int argc, char *argv[] ) {
     int i, j;
 
     for( i = 0; i < inputs.elements; ++i ) {
-        advanceInputs( &inputs );
+        advanceInputs( &inputs, nextValue() );
     }
 
     return 0;
