@@ -5,12 +5,16 @@
 #include "random.h"
 
 #define FLOAT_EQUALS 0.01
+#define true 1;
+#define false 0;
+
+typedef int boolean;
 
 static void weightedSum_test( void ) {
     float a[5] = {1, 2, 3, 4 , 5};
     float b[5] = {-1.5, 2, 3, 4 , -5};
-    vector inputs = {a, 5};
-    vector weights = {b, 5};
+    Vector inputs = {a, 5};
+    Vector weights = {b, 5};
 
     assert( weightedSum( inputs, weights ) == 2.5 && "Weighted sums not being calculated correctly" );
 }
@@ -26,33 +30,90 @@ static void getOutput_test( void ) {
     }
 }
 
-static void testInput_test( void ) {
+static void updateWeights_test( void ) {
     float a[2];
     float b[2];
-    vector inputs = {a, 2};
-    vector weights = {b, 2};
-    float desired, actual, error;
+    float actual, error;
+    Vector inputs = {a, 2};
+    Vector weights = {b, 2};
+    TestCase testCase = {inputs, 0.0};
     int i, j;
     int converged = 0;
 
     for( i = 0; i < 1000; ++i ) {
-        desired = randFloat() * 2 - 1;
+        testCase.desiredOutput = randFloat() * 2 - 1;
         a[0] = randFloat() * 2 - 1; a[1] = randFloat() * 2 - 1;
         b[0] = randFloat() / 20; b[1] = randFloat() / 20;
         for( j = 0; j < 250; ++j ) {
-            testInput( inputs, weights, desired );
+            updateWeights( testCase, weights );
 
             actual = getOutput( weightedSum( inputs, weights ) );
-            error = fabs( desired - actual );
+            error = fabs( testCase.desiredOutput - actual );
             if( error < FLOAT_EQUALS ) {
+                converged++;
                 break;
             }
         }
-        if( error < FLOAT_EQUALS ) {
-            converged++;
-        } else {
-            printf( "inputs: %f, %f, weights: %f, %f, desired: %f, actual: %f\n", a[0], a[1], b[0], b[1], desired, actual );
+    }
+
+    assert( converged > 900 && "Should have had a better convergence rate" );
+}
+
+static makeTestCases( float a[][3], Vector inputs[], TestCase testCases[] ) {
+    int i;
+
+    for( i = 0; i < 8; ++i ) {
+        inputs[i].a = a[i];
+        inputs[i].elements = 3;
+        testCases[i].inputs = inputs[i];
+    }
+
+    testCases[0].desiredOutput = -1; testCases[1].desiredOutput = -1;
+    testCases[2].desiredOutput = -1; testCases[3].desiredOutput = 1;
+    testCases[4].desiredOutput = -1; testCases[5].desiredOutput = 1;
+    testCases[6].desiredOutput = 1; testCases[7].desiredOutput = 1;
+}
+
+static boolean isTrained( TestCase testCases[], Vector weights ) {
+    int i;
+    float output, error;
+
+    for( i = 0; i < 8; ++i ) {
+        output = getOutput( weightedSum( testCases[i].inputs, weights ) );
+        error = fabs( output - testCases[i].desiredOutput );
+        if( error > FLOAT_EQUALS ) {
+            return false;
         }
+    }
+
+    return true;
+}
+
+static void majorityFunction( void ) {
+    float a[8][3] = {{-1, -1 , -1}, {-1, -1, 1}, {-1, 1, -1}, {-1, 1, 1},
+        {1, -1, -1}, {1, -1, 1}, {1, 1, -1}, {1, 1, 1}};
+    float b[3] = {randFloat() / 20, randFloat() / 20, randFloat() / 20};
+    Vector inputs[8];
+    Vector weights = {b, 3};
+    TestCase testCases[8];
+    int i, j, maxIterations = 10000;
+
+    makeTestCases( a, inputs, testCases );
+
+    for( i = 0; i < maxIterations; ++i) {
+        updateWeights( testCases[i % 8], weights );
+        if( isTrained( testCases, weights ) ) {
+            break;
+        }
+    }
+
+    assert( i != maxIterations && "Should have finished training before 10000 iterations.");
+
+    printf( "Took %d iterations\n", i );
+    printf( "Weights: %f %f %f\n", b[0], b[1], b[2] );
+    for( i = 0; i < 8; ++i ) {
+        printf( "Inputs: % 5.2f % 5.2f % 5.2f, Output: %f\n", a[i][0], a[i][1], a[i][2],
+            getOutput( weightedSum( testCases[i].inputs, weights) ) );
     }
 }
 
@@ -61,6 +122,7 @@ int main( void ) {
 
     weightedSum_test();
     getOutput_test();
-    testInput_test();
+    updateWeights_test();
+    majorityFunction();
     return 0;
 }

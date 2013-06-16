@@ -3,8 +3,13 @@
 typedef struct {
     float *a;
     int elements;
-} vector;
+} Vector;
 
-float weightedSum( vector inputs, vector weights );
+typedef struct {
+    Vector inputs;
+    float desiredOutput;
+} TestCase;
+
+float weightedSum( Vector inputs, Vector weights );
 float getOutput( float weightedSum );
-void testInput( vector inputs, vector weights, float desiredOutput );
+void updateWeights( TestCase testCase, Vector weights );
