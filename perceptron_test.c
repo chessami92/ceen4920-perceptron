@@ -16,7 +16,7 @@ static void weightedSum_test( void ) {
     Vector inputs = {a, 5};
     Vector weights = {b, 5};
 
-    assert( weightedSum( inputs, weights ) == 2.5 && "Weighted sums not being calculated correctly" );
+    assert( weightedSum( &inputs, &weights ) == 2.5 && "Weighted sums not being calculated correctly" );
 }
 
 static void getOutput_test( void ) {
@@ -45,9 +45,9 @@ static void updateWeights_test( void ) {
         a[0] = randFloat() * 2 - 1; a[1] = randFloat() * 2 - 1;
         b[0] = randFloat() / 20; b[1] = randFloat() / 20;
         for( j = 0; j < 250; ++j ) {
-            updateWeights( testCase, weights );
+            updateWeights( &testCase, &weights );
 
-            actual = getOutput( weightedSum( inputs, weights ) );
+            actual = getOutput( weightedSum( &inputs, &weights ) );
             error = fabs( testCase.desiredOutput - actual );
             if( error < FLOAT_EQUALS ) {
                 converged++;
@@ -79,7 +79,7 @@ static boolean isTrained( TestCase testCases[], Vector weights ) {
     float output, error;
 
     for( i = 0; i < 8; ++i ) {
-        output = getOutput( weightedSum( testCases[i].inputs, weights ) );
+        output = getOutput( weightedSum( &testCases[i].inputs, &weights ) );
         error = fabs( output - testCases[i].desiredOutput );
         if( error > FLOAT_EQUALS ) {
             return false;
@@ -101,7 +101,7 @@ static void majorityFunction( void ) {
     makeTestCases( a, inputs, testCases );
 
     for( i = 0; i < maxIterations; ++i) {
-        updateWeights( testCases[i % 8], weights );
+        updateWeights( &testCases[i % 8], &weights );
         if( isTrained( testCases, weights ) ) {
             break;
         }
@@ -113,7 +113,7 @@ static void majorityFunction( void ) {
     printf( "Weights: %f %f %f\n", b[0], b[1], b[2] );
     for( i = 0; i < 8; ++i ) {
         printf( "Inputs: % 5.2f % 5.2f % 5.2f, Output: %f\n", a[i][0], a[i][1], a[i][2],
-            getOutput( weightedSum( testCases[i].inputs, weights) ) );
+            getOutput( weightedSum( &testCases[i].inputs, &weights) ) );
     }
 }
 
