@@ -3,8 +3,8 @@ cc=gcc -o
 
 all: build
 
-build: main.c perceptron.c
-	gcc -o main main.c perceptron.c
+build: main.c perceptron.c random.c
+	gcc -o main main.c perceptron.c random.c
 
 run: build
 	./main.exe
