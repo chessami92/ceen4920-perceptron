@@ -1,2 +1,2 @@
-void intRand( void );
+void initRand( void );
 float randFloat( void );
