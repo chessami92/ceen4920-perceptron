@@ -14,4 +14,4 @@ test: perceptron_test.c perceptron.c random.c
 	./perceptron_test
 
 clean:
-	rm -f main perceptron_test
+	rm -f *.exe *.stackdump
