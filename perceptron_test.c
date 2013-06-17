@@ -36,7 +36,7 @@ static void updateWeights_test( void ) {
     float actual, error;
     Vector inputs = {a, 2};
     Vector weights = {b, 2};
-    TestCase testCase = {inputs, 0.0};
+    TestCase testCase = {&inputs, 0.0};
     int i, j;
     int converged = 0;
 
@@ -65,7 +65,7 @@ static makeTestCases( float a[][3], Vector inputs[], TestCase testCases[] ) {
     for( i = 0; i < 8; ++i ) {
         inputs[i].a = a[i];
         inputs[i].elements = 3;
-        testCases[i].inputs = inputs[i];
+        testCases[i].inputs = &inputs[i];
     }
 
     testCases[0].desiredOutput = -1; testCases[1].desiredOutput = -1;
@@ -79,7 +79,7 @@ static boolean isTrained( TestCase testCases[], Vector weights ) {
     float output, error;
 
     for( i = 0; i < 8; ++i ) {
-        output = getOutput( weightedSum( &testCases[i].inputs, &weights ) );
+        output = getOutput( weightedSum( testCases[i].inputs, &weights ) );
         error = fabs( output - testCases[i].desiredOutput );
         if( error > FLOAT_EQUALS ) {
             return false;
@@ -113,7 +113,7 @@ static void majorityFunction( void ) {
     printf( "Weights: %f %f %f\n", b[0], b[1], b[2] );
     for( i = 0; i < 8; ++i ) {
         printf( "Inputs: % 5.2f % 5.2f % 5.2f, Output: %f\n", a[i][0], a[i][1], a[i][2],
-            getOutput( weightedSum( &testCases[i].inputs, &weights) ) );
+            getOutput( weightedSum( testCases[i].inputs, &weights) ) );
     }
 }
 

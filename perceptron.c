@@ -25,12 +25,12 @@ void updateWeights( TestCase *testCase, Vector *weights ) {
     float derivative;
     int i;
 
-    in = weightedSum( &testCase->inputs, weights );
+    in = weightedSum( testCase->inputs, weights );
     actualOutput = getOutput( in );
     error = testCase->desiredOutput - actualOutput;
     derivative = 1 / ( 2 * powf( cosh( in / 2 ), 2 ) );
     
     for( i = 0; i < weights->elements; ++i ) {
-        weights->a[i] = weights->a[i] + learningRate * error * derivative * testCase->inputs.a[i];
+        weights->a[i] = weights->a[i] + learningRate * error * derivative * testCase->inputs->a[i];
     }
 }

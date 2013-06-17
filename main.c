@@ -22,12 +22,22 @@ void advanceInputs( Vector *inputs, float nextValue ) {
 }
 
 int main( int argc, char *argv[] ) {
-    Vector inputs; inputs.elements = PERCEPTRON_INPUTS;
-    Vector weights; weights.elements = PERCEPTRON_INPUTS;
-    int i, j;
+    float inputsA[PERCEPTRON_INPUTS];
+    float weightsA[PERCEPTRON_INPUTS];
+    Vector inputs;
+    inputs.a = inputsA; inputs.elements = PERCEPTRON_INPUTS;
+    Vector weights;
+    weights.a = weightsA; weights.elements = PERCEPTRON_INPUTS;
+    TestCase testCase = {&inputs, 0.0};
+    int i;
 
     for( i = 0; i < inputs.elements; ++i ) {
         advanceInputs( &inputs, nextValue() );
+    }
+
+    for( i = 0; i < 1; ++i ) {
+        testCase.desiredOutput = nextValue();
+        updateWeights( &testCase, &weights );
     }
 
     return 0;
