@@ -113,7 +113,7 @@ static void majorityFunction( void ) {
     printf( "Weights: %f %f %f\n", b[0], b[1], b[2] );
     for( i = 0; i < 8; ++i ) {
         printf( "Inputs: % 5.2f % 5.2f % 5.2f, Output: %f\n", a[i][0], a[i][1], a[i][2],
-            getOutput( weightedSum( testCases[i].inputs, &weights) ) );
+                getOutput( weightedSum( testCases[i].inputs, &weights) ) );
     }
 }
 

@@ -58,5 +58,9 @@ int main( int argc, char *argv[] ) {
         advanceInputs( &inputs, output );
     }
 
+    for( i = 0; i < weights.elements; ++i ) {
+        printf( "%f\n", weights.a[i] );
+    }
+
     return 0;
 }
